@@ -1,3 +1,5 @@
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/mediacms-1?utm_medium=integration&utm_source=button&utm_campaign=mediacms)
+
 # MediaCMS on Railway
 
 Railway template for [MediaCMS](https://mediacms.io) **9.6.1**, the open-source video and media CMS (Django + React, AGPL-3.0).

@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.6.1-1 (2026-11-21)
+
+- No breaking changes. README: Deploy on Railway button for the published template `mediacms-1`. No change to the image or settings.
+
 ## 9.6.1 (2026-11-21)
 
 - First release of the template: MediaCMS 9.6.1 (`mediacms/mediacms@sha256:c7cb3abdf8086accadc1c0d13f08b8943ae13967259fe99c3f0180467a13ab7d`, upstream commit `9dbcda4`), Railway Postgres and Railway Redis, media on a volume.
