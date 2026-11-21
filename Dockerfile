@@ -10,11 +10,14 @@ COPY railway-start.sh /usr/local/bin/railway-start.sh
 
 # Railway containers see all host CPUs, so size the worker pools explicitly:
 # one short-task Celery node (instead of 2 x 10 processes), a fixed pool for the
-# long (transcoding) node, and a fixed number of nginx workers.
+# long (transcoding) node, and a fixed number of nginx workers. Upstream's
+# prestart.sh also prints the admin password to the logs: keep it out.
 ARG SV=/home/mediacms.io/mediacms/deploy/docker/supervisord
 RUN sed -i 's/multi start short1 short2/multi start short1/; s/ -c10 / -c%(ENV_CELERY_SHORT_CONCURRENCY)s /' $SV/supervisord-celery_short.conf \
     && sed -i 's/ -Ofair / -c%(ENV_CELERY_LONG_CONCURRENCY)s -Ofair /' $SV/supervisord-celery_long.conf \
     && sed -i 's/^worker_processes auto;/worker_processes 2;/' /home/mediacms.io/mediacms/deploy/docker/nginx.conf \
+    && sed -i 's/echo "Created admin user with password: \$ADMIN_PASSWORD"/echo "Created admin user $ADMIN_USER (password: the ADMIN_PASSWORD variable)"/' /home/mediacms.io/mediacms/deploy/docker/prestart.sh \
+    && ! grep -q 'with password: \$ADMIN_PASSWORD' /home/mediacms.io/mediacms/deploy/docker/prestart.sh \
     && grep -q 'ENV_CELERY_SHORT_CONCURRENCY' $SV/supervisord-celery_short.conf \
     && grep -q 'ENV_CELERY_LONG_CONCURRENCY' $SV/supervisord-celery_long.conf \
     && grep -q '^worker_processes 2;' /home/mediacms.io/mediacms/deploy/docker/nginx.conf \
